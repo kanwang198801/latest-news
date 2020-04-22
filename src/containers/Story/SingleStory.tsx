@@ -4,26 +4,32 @@
  *
  */
 
-import React, { useEffect, memo } from 'react';
+import React, { useEffect, useState, memo } from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom'
 import { Helmet } from "react-helmet";
-// import { Redirect, Route, Link } from 'react-router-dom'
+import URL from "../../API";
+import ListItem from "../../components/ListItem";
+import { StoryType } from "./types"
 
-function Listing() {
+interface OwnProps extends RouteComponentProps { }
+type Props = OwnProps;
+
+function SingleStory(props: Props) {
+    const [loading, setLoading] = useState(true);
+    const [story, setStory] = useState<StoryType | null>(null);
     useEffect(() => {
-        //api
+
     }, []);
 
     return (
         <div>
             <Helmet>
                 <title>Single Story</title>
-                <meta name="description" content="Stories Listing" />
+                <meta name="description" content="Single Story" />
             </Helmet>
-            <div>
-                Single Story
-            </div>
+
         </div>
     );
 }
 
-export default memo(Listing);
+export default memo(SingleStory);
