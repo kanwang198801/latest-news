@@ -38,13 +38,17 @@ function SingleStory(props: Props) {
             `${URL}/item/${singleProjectID}.json?print=pretty`
         ).then(res => res.json())
             .then(response => {
-                setStory(response);
+                if (response !== null)
+                    setStory(response);
+                setLoading(false);
             }
+
             )
             .catch(error => console.log(error));
     }, [props.match.params.id]);
 
     useEffect(() => {
+        if (story.type !== "story") return
         if (story.kids.length > 0) {
             const topCommentIDs = story.kids.slice(0, 20);
             let commentsTop20: CommentType[] = [];
@@ -59,7 +63,7 @@ function SingleStory(props: Props) {
                     .catch(error => console.log(error));
             });
             setComments(commentsTop20);
-            setLoading(false);
+
         }
     }, [story]);
     interface ListTypes {
