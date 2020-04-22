@@ -45,14 +45,6 @@ function Stories(props: Props) {
         loadStories();
     }, []);
 
-    console.log("Object.keys(stories).length", Object.keys(stories).length);
-    console.log("stories[0]", stories[0]);
-    console.log(stories);
-    // console.log(stories);
-    // console.log(stories[0]);
-    // console.log(stories.length);
-    // console.log(typeof stories);
-
     interface ListTypes {
         items: StoryType[],
         hasLink: boolean,

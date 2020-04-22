@@ -76,7 +76,12 @@ function SingleStory(props: Props) {
         link: '',
         type: 'comment',
     }
-    console.info(comments);
+    let date = "";
+    if (story.time) {
+        const dateTime = new Date(story.time * 1000);
+        date = dateTime.getDate() + '/' + (dateTime.getMonth() + 1) + '/' + dateTime.getFullYear();
+    }
+
     return (
         <Theme>
             <Helmet>
@@ -84,22 +89,22 @@ function SingleStory(props: Props) {
                 <meta name="description" content="Story" />
             </Helmet>
             {
-                !loading ?
-                    story.type === "story" ?
-                        (<>
-                            <Link to="/"><Button>Back</Button></Link>
-                            <h1>{story.title}</h1>
-                            <h3>Arthur: {story.by}</h3>
-                            <a href={story.url} target="_black">View details</a>
-                            {comments.length > 0 &&
-                                <>
-                                    <h3>Comments</h3>
-                                    <List {...ListProps} />
-                                </>
-                            }
-                        </>
-                        )
-                        : (<p>Not found</p>)
+                !loading ? story.type === "story" ?
+                    (<>
+                        <Link to="/"><Button>Back</Button></Link>
+
+                        <h1>{story.title}</h1>
+                        <h3>Arthur: {story.by} - {date}</h3>
+                        <a href={story.url} target="_black">View details</a>
+                        {comments.length > 0 &&
+                            <>
+                                <h3>Comments</h3>
+                                <List {...ListProps} />
+                            </>
+                        }
+                    </>
+                    )
+                    : (<p>Not found</p>)
                     : (<p>loading...</p>)
             }
         </Theme>
