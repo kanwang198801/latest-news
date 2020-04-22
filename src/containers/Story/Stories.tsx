@@ -11,7 +11,7 @@ import URL from "../../API";
 import ListItem from "../../components/ListItem";
 import { StoryType } from "./types"
 
-interface OwnProps extends RouteComponentProps { }
+interface OwnProps extends RouteComponentProps<any> { }
 type Props = OwnProps;
 
 function Stories(props: Props) {
@@ -23,7 +23,7 @@ function Stories(props: Props) {
         ).then(res => res.json())
             .then(response => {
                 const topTenStoryIDs: [] = response.slice(0, 10);
-                let storiesTopTen: StoryType[] = [];
+                let storiesTop10: StoryType[] = [];
 
                 topTenStoryIDs.forEach(topTenStoryID => {
                     fetch(
@@ -31,10 +31,10 @@ function Stories(props: Props) {
                     )
                         .then(res => res.json())
                         .then(response => {
-                            storiesTopTen.push(response);
+                            storiesTop10.push(response);
                         }).catch(error => console.log(error));
                 });
-                setStories(storiesTopTen);
+                setStories(storiesTop10);
                 setLoading(false);
             }
             )

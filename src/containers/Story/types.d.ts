@@ -1,12 +1,20 @@
 export interface StoryType {
     by: string,
     descendants: number,
-    id: string,
+    id: number,
     kids: [],
     score: number,
     text: "",
     time: number,
     title: string,
-    ur: string,
+    url: string,
 }
-
+export interface CommentType {
+    by: string,
+    id: number,
+    kinds: [],
+    parent: number,
+    text: string,
+    time: number,
+    type: string
+}
