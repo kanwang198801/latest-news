@@ -5,9 +5,10 @@
  */
 
 import React, { useEffect, useState, memo } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 import { Helmet } from "react-helmet";
 import URL from "../../API";
+import Theme from "../../components/Theme";
 import List from "../../components/List";
 import { StoryType } from "./types"
 
@@ -17,29 +18,31 @@ type Props = OwnProps;
 function Stories(props: Props) {
     const [loading, setLoading] = useState(true);
     const [stories, setStories] = useState<StoryType[]>([]);
-    useEffect(() => {
-        fetch(
+
+    const loadStories = async () => {
+        await fetch(
             `${URL}/topstories.json?print=pretty`
         ).then(res => res.json())
-            .then(response => {
-                const topTenStoryIDs = response.slice(0, 10);
-                let storiesTop10: StoryType[] = [];
-
-                topTenStoryIDs.forEach(topTenStoryID => {
-                    fetch(
-                        `${URL}/item/${topTenStoryID}.json?print=pretty`
-                    )
+            .then(async response => {
+                const topTenStoryIDs: [] = response.slice(0, 10);
+                const list = await Promise.all(topTenStoryIDs.map(topTenStoryID => {
+                    const story = fetch(`${URL}/item/${topTenStoryID}.json?print=pretty`)
                         .then(res => res.json())
                         .then(response => {
-                            storiesTop10.push(response);
-                        }).catch(error => console.log(error));
-                });
-                setStories(storiesTop10);
-                setLoading(false);
-            }
-            )
+                            return response
+                        }).catch(error => {
+                            console.log(error)
+                        });
+                    return story;
+                }));
+                setStories(list);
+            })
             .catch(error => console.log(error));
+        setLoading(false);
+    }
 
+    useEffect(() => {
+        loadStories();
     }, []);
 
     console.log("Object.keys(stories).length", Object.keys(stories).length);
@@ -61,22 +64,22 @@ function Stories(props: Props) {
         link: '/story',
     }
     return (
-        <div>
+        <Theme>
             <Helmet>
-                <title>Stories Listing</title>
-                <meta name="description" content="Stories Listing" />
+                <title>Stories</title>
+                <meta name="description" content="Stories" />
             </Helmet>
             {!loading ?
-                Object.keys(stories).length !== 0 ? (<div>No data</div>) :
+                stories.length === 0 ? (<div>No data</div>) :
                     (
                         <>
-                            <h3>Top 10 Storis</h3>
+                            <h1>Top 10 Stories</h1>
                             <List {...ListProps} />
                         </>
                     ) :
                 <div>Loading...</div>}
 
-        </div>
+        </Theme>
     );
 }
 

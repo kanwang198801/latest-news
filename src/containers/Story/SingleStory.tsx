@@ -8,8 +8,9 @@ import React, { useEffect, useState, memo } from 'react';
 import { Helmet } from "react-helmet";
 import URL from "../../API";
 import Theme from "../../components/Theme";
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, Link } from 'react-router-dom'
 import List from "../../components/List";
+import Button from "../../components/Button";
 import { StoryType, CommentType } from "./types"
 
 interface OwnProps extends RouteComponentProps<any> { }
@@ -79,26 +80,27 @@ function SingleStory(props: Props) {
     return (
         <Theme>
             <Helmet>
-                <title>Single Story</title>
-                <meta name="description" content="Single Story" />
+                <title>Story</title>
+                <meta name="description" content="Story" />
             </Helmet>
             {
                 !loading ?
                     story.type === "story" ?
-                        (<div>
+                        (<>
+                            <Link to="/"><Button>Back</Button></Link>
                             <h1>{story.title}</h1>
-                            <h3>By: {story.by}</h3>
-                            <p>Url: {story.url}</p>
+                            <h3>Arthur: {story.by}</h3>
+                            <a href={story.url} target="_black">View details</a>
                             {comments.length > 0 &&
                                 <>
                                     <h3>Top 20 Comments</h3>
                                     <List {...ListProps} />
                                 </>
                             }
-                        </div>
+                        </>
                         )
-                        : (<div>Not found</div>)
-                    : (<div>loading...</div>)
+                        : (<p>Not found</p>)
+                    : (<p>loading...</p>)
             }
         </Theme>
     );
