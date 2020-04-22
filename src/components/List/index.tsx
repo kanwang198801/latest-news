@@ -1,22 +1,24 @@
 import * as React from 'react';
 import styles from './styles.module.css';
 import { Link } from 'react-router-dom'
-function List({ items, hasLink, link }) {
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+function List({ items, hasLink, link, type }) {
     let list = "";
 
-    if (hasLink) {
+    if (type === "story") {
         list = items.map((listItem: any) => (
-            <div className={styles.listItem}>
-                <Link className="link" to={`${link}/${listItem.id}`} key={`item - ${listItem.id}`}>
+            <div className={styles.listItem} key={`item - ${listItem.id}`}>
+                <Link className="link" to={`${link}/${listItem.id}`}>
                     {listItem.title}
                 </Link >
             </div>
         ))
     }
-    else {
+    else if (type === "comment") {
         list = items.map((listItem: any) => (
-            <div className={styles.listItem}>
-                {listItem.title}
+            <div className={styles.listItem} key={`item - ${listItem.id}`}>
+                <div>{ReactHtmlParser(listItem.text)}</div>
+                <h5><strong>By:</strong> {listItem.by}</h5>
             </div>
         ))
     }

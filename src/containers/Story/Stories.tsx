@@ -57,11 +57,13 @@ function Stories(props: Props) {
         items: StoryType[],
         hasLink: boolean,
         link: string,
+        type: string,
     }
     const ListProps: ListTypes = {
         items: stories,
         hasLink: true,
         link: '/story',
+        type: 'story',
     }
     return (
         <Theme>

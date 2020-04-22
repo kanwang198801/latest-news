@@ -33,6 +33,17 @@ function SingleStory(props: Props) {
         }
     );
     const [comments, setComments] = useState<CommentType[]>([]);
+
+    const loadComments = async (commentIDs: string[]) => {
+        const topCommentIDs = commentIDs.slice(0, 20);
+        const list: CommentType[] = await Promise.all(topCommentIDs.map(comentId => {
+            const singleComment = fetch(`${URL}/item/${comentId}.json?print=pretty`).then(res => res.json())
+                .then(response => { return response; }).catch(error => console.log(error));
+            return singleComment;
+        }));
+        setComments(list);
+    }
+
     useEffect(() => {
         const singleProjectID = props.match.params.id;
         fetch(
@@ -43,7 +54,6 @@ function SingleStory(props: Props) {
                     setStory(response);
                 setLoading(false);
             }
-
             )
             .catch(error => console.log(error));
     }, [props.match.params.id]);
@@ -51,32 +61,22 @@ function SingleStory(props: Props) {
     useEffect(() => {
         if (story.type !== "story") return
         if (story.kids.length > 0) {
-            const topCommentIDs = story.kids.slice(0, 20);
-            let commentsTop20: CommentType[] = [];
-            topCommentIDs.forEach(comentId => {
-                fetch(
-                    `${URL}/item/${comentId}.json?print=pretty`
-                ).then(res => res.json())
-                    .then(response => {
-                        commentsTop20.push(response);
-                    }
-                    )
-                    .catch(error => console.log(error));
-            });
-            setComments(commentsTop20);
-
+            loadComments(story.kids);
         }
     }, [story]);
     interface ListTypes {
         items: CommentType[],
         hasLink: boolean,
         link: string,
+        type: string,
     }
     const ListProps: ListTypes = {
         items: comments,
         hasLink: false,
         link: '',
+        type: 'comment',
     }
+    console.info(comments);
     return (
         <Theme>
             <Helmet>
@@ -93,7 +93,7 @@ function SingleStory(props: Props) {
                             <a href={story.url} target="_black">View details</a>
                             {comments.length > 0 &&
                                 <>
-                                    <h3>Top 20 Comments</h3>
+                                    <h3>Comments</h3>
                                     <List {...ListProps} />
                                 </>
                             }
