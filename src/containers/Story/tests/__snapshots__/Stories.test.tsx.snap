@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Stories /> Should render and match the snapshot 1`] = `
+<main
+  class="main"
+>
+  <div
+    class="container"
+  >
+    <div>
+      Loading...
+    </div>
+  </div>
+</main>
+`;

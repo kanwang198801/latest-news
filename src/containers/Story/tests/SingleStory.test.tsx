@@ -9,7 +9,7 @@ import { RouteComponentProps } from 'react-router-dom'
 import { createMemoryHistory, createLocation } from 'history';
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
-import Stories from '../Stories';
+import SingleStory from '../Stories';
 interface OwnProps extends RouteComponentProps<any> { }
 type Props = OwnProps;
 const history = createMemoryHistory();
@@ -23,16 +23,16 @@ const match = {
 const location = createLocation(match.url);
 
 const renderStories = () =>
-    render(<Stories
+    render(<SingleStory
         history={history}
         location={location}
         match={match} />
     );
 
-describe('<Stories />', () => {
+describe('<SingleStory />', () => {
     it('Expect to not log errors in console', () => {
         const spy = jest.spyOn(global.console, 'error');
-        render(<Stories
+        render(<SingleStory
             history={history}
             location={location}
             match={match} />
@@ -45,7 +45,7 @@ describe('<Stories />', () => {
         const {
             container: { firstChild },
         } = render(
-            <Stories
+            <SingleStory
                 history={history}
                 location={location}
                 match={match} />
