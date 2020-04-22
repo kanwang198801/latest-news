@@ -7,6 +7,7 @@ export interface StoryType {
     text: "",
     time: number,
     title: string,
+    type: string,
     url: string,
 }
 export interface CommentType {

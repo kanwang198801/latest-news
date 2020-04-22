@@ -1,9 +1,10 @@
 import * as React from 'react';
+import styles from './styles.module.css';
 
-function ListItem({ storyItem }) {
+function ListItem({ listItem }) {
     return (
-        <div>
-            {storyItem.title}
+        <div className={styles.listItem}>
+            {listItem.title}
         </div>
     );
 }

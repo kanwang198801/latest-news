@@ -8,7 +8,7 @@ import React, { useEffect, useState, memo } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom'
 import { Helmet } from "react-helmet";
 import URL from "../../API";
-import ListItem from "../../components/ListItem";
+import List from "../../components/List";
 import { StoryType } from "./types"
 
 interface OwnProps extends RouteComponentProps<any> { }
@@ -22,7 +22,7 @@ function Stories(props: Props) {
             `${URL}/topstories.json?print=pretty`
         ).then(res => res.json())
             .then(response => {
-                const topTenStoryIDs: [] = response.slice(0, 10);
+                const topTenStoryIDs = response.slice(0, 10);
                 let storiesTop10: StoryType[] = [];
 
                 topTenStoryIDs.forEach(topTenStoryID => {
@@ -49,6 +49,17 @@ function Stories(props: Props) {
     // console.log(stories[0]);
     // console.log(stories.length);
     // console.log(typeof stories);
+
+    interface ListTypes {
+        items: StoryType[],
+        hasLink: boolean,
+        link: string,
+    }
+    const ListProps: ListTypes = {
+        items: stories,
+        hasLink: true,
+        link: '/story',
+    }
     return (
         <div>
             <Helmet>
@@ -57,13 +68,11 @@ function Stories(props: Props) {
             </Helmet>
             {!loading ?
                 Object.keys(stories).length !== 0 ? (<div>No data</div>) :
-                    (<div>
-                        {stories.map((storyItem) => (
-                            <Link to={`/story/${storyItem.id}`} key={`item - ${storyItem.id}`}>
-                                <ListItem storyItem />
-                            </Link >
-                        ))}
-                    </div>
+                    (
+                        <>
+                            <h3>Top 10 Storis</h3>
+                            <List {...ListProps} />
+                        </>
                     ) :
                 <div>Loading...</div>}
 

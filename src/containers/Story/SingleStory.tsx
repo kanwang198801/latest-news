@@ -5,10 +5,11 @@
  */
 
 import React, { useEffect, useState, memo } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom'
 import { Helmet } from "react-helmet";
 import URL from "../../API";
-import ListItem from "../../components/ListItem";
+import Theme from "../../components/Theme";
+import { RouteComponentProps } from 'react-router-dom'
+import List from "../../components/List";
 import { StoryType, CommentType } from "./types"
 
 interface OwnProps extends RouteComponentProps<any> { }
@@ -25,6 +26,7 @@ function SingleStory(props: Props) {
             score: 0,
             text: "",
             time: 0,
+            type: "",
             title: "",
             url: "",
         }
@@ -44,8 +46,9 @@ function SingleStory(props: Props) {
 
     useEffect(() => {
         if (story.kids.length > 0) {
+            const topCommentIDs = story.kids.slice(0, 20);
             let commentsTop20: CommentType[] = [];
-            story.kids.forEach(comentId => {
+            topCommentIDs.forEach(comentId => {
                 fetch(
                     `${URL}/item/${comentId}.json?print=pretty`
                 ).then(res => res.json())
@@ -59,35 +62,41 @@ function SingleStory(props: Props) {
             setLoading(false);
         }
     }, [story]);
-
-
+    interface ListTypes {
+        items: CommentType[],
+        hasLink: boolean,
+        link: string,
+    }
+    const ListProps: ListTypes = {
+        items: comments,
+        hasLink: false,
+        link: '',
+    }
     return (
-        <div>
+        <Theme>
             <Helmet>
                 <title>Single Story</title>
                 <meta name="description" content="Single Story" />
             </Helmet>
             {
                 !loading ?
-                    story.id !== 0 ?
+                    story.type === "story" ?
                         (<div>
                             <h1>{story.title}</h1>
                             <h3>By: {story.by}</h3>
                             <p>Url: {story.url}</p>
-                            <div>
-                                <h3>Comments</h3>
-                                {comments.length > 0 && comments.map((storyItem) => (
-                                    <Link to={`/story/${storyItem.id}`} key={`item - ${storyItem.id}`}>
-                                        <ListItem storyItem />
-                                    </Link >
-                                ))}
-                            </div>
+                            {comments.length > 0 &&
+                                <>
+                                    <h3>Top 20 Comments</h3>
+                                    <List {...ListProps} />
+                                </>
+                            }
                         </div>
                         )
                         : (<div>Not found</div>)
                     : (<div>loading...</div>)
             }
-        </div>
+        </Theme>
     );
 }
 
