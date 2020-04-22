@@ -16,11 +16,11 @@ function Listing() {
     return (
         <div>
             <Helmet>
-                <title>Stories Listing</title>
+                <title>Single Story</title>
                 <meta name="description" content="Stories Listing" />
             </Helmet>
             <div>
-                Stories Listing
+                Single Story
             </div>
         </div>
     );
