@@ -18,6 +18,7 @@ type Props = OwnProps;
 
 function SingleStory(props: Props) {
     const [loading, setLoading] = useState(true);
+    const [commentloading, setCommentLoading] = useState(true);
     const [story, setStory] = useState<StoryType>(
         {
             by: "",
@@ -33,18 +34,7 @@ function SingleStory(props: Props) {
         }
     );
     const [comments, setComments] = useState<CommentType[]>([]);
-
-    const loadComments = async (commentIDs: string[]) => {
-        const topCommentIDs = commentIDs.slice(0, 20);
-        const list: CommentType[] = await Promise.all(topCommentIDs.map(comentId => {
-            const singleComment = fetch(`${URL}/item/${comentId}.json?print=pretty`).then(res => res.json())
-                .then(response => { return response; }).catch(error => console.log(error));
-            return singleComment;
-        }));
-        setComments(list);
-    }
-
-    useEffect(() => {
+    const loadStory = async () => {
         const singleProjectID = props.match.params.id;
         fetch(
             `${URL}/item/${singleProjectID}.json?print=pretty`
@@ -53,10 +43,24 @@ function SingleStory(props: Props) {
                 if (response !== null)
                     setStory(response);
                 setLoading(false);
-            }
-            )
-            .catch(error => console.log(error));
-    }, [props.match.params.id]);
+            }).catch(error => console.log(error));
+    };
+    const loadComments = async (commentIDs: string[]) => {
+        const topCommentIDs = commentIDs.slice(0, 20);
+        const list: CommentType[] = await Promise.all(topCommentIDs.map(comentId => {
+            const singleComment = fetch(`${URL}/item/${comentId}.json?print=pretty`)
+                .then(res => res.json())
+                .then(response => { return response; })
+                .catch(error => console.log(error));
+            return singleComment;
+        }));
+        setComments(list);
+        setCommentLoading(false);
+    }
+
+    useEffect(() => {
+        loadStory();
+    }, []);
 
     useEffect(() => {
         if (story.type !== "story") return
@@ -96,12 +100,12 @@ function SingleStory(props: Props) {
                         <h1>{story.title}</h1>
                         <h3>Arthur: {story.by} - {date}</h3>
                         <a href={story.url} target="_black">View details</a>
-                        {comments.length > 0 &&
+                        {!commentloading ? comments.length > 0 &&
                             <>
                                 <h3>Comments</h3>
                                 <List {...ListProps} />
                             </>
-                        }
+                            : (<p>loading comments...</p>)}
                     </>
                     )
                     : (<p>Not found</p>)
