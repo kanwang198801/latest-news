@@ -1,5 +1,5 @@
 /**
- * Test the Stories
+ * Test the Single Story
  */
 
 import '@testing-library/jest-dom'
@@ -21,13 +21,6 @@ const match = {
     params: { id: "1" }
 };
 const location = createLocation(match.url);
-
-const renderStories = () =>
-    render(<SingleStory
-        history={history}
-        location={location}
-        match={match} />
-    );
 
 describe('<SingleStory />', () => {
     it('Expect to not log errors in console', () => {

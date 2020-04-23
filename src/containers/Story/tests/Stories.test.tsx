@@ -33,7 +33,6 @@ describe('<Stories />', () => {
         expect(spy).not.toHaveBeenCalled();
     });
 
-
     it('Should render and match the snapshot', () => {
         const {
             container: { firstChild },
