@@ -62,15 +62,15 @@ function Stories(props: Props) {
                 <meta name="description" content="Stories" />
             </Helmet>
             {!loading ?
-                stories.length === 0 ? (<div>No data</div>) :
+                stories.length !== 0 ?
                     (
                         <>
                             <h1>Top 10 Stories</h1>
                             <List {...ListProps} />
                         </>
                     ) :
+                    (<div>No data</div>) :
                 <div>Loading...</div>}
-
         </Theme>
     );
 }

@@ -93,21 +93,23 @@ function SingleStory(props: Props) {
                 <meta name="description" content="Story" />
             </Helmet>
             {
-                !loading ? story.type === "story" ?
-                    (<>
-                        <Link to="/"><Button>Back</Button></Link>
-                        <h1>{story.title}</h1>
-                        <h3>Arthur: {story.by} - {date}</h3>
-                        <a href={story.url} target="_black">View details</a>
-                        {!commentloading ? comments.length > 0 &&
+                !loading ?
+                    story.type === "story" ?
+                        (
                             <>
-                                <h3>Comments</h3>
-                                <List {...ListProps} />
+                                <Link to="/"><Button>Back</Button></Link>
+                                <h1>{story.title}</h1>
+                                <h3>Arthur: {story.by} - {date}</h3>
+                                <a href={story.url} target="_black">View details</a>
+                                {!commentloading ? comments.length > 0 &&
+                                    <>
+                                        <h3>Comments</h3>
+                                        <List {...ListProps} />
+                                    </>
+                                    : (<p>loading comments...</p>)}
                             </>
-                            : (<p>loading comments...</p>)}
-                    </>
-                    )
-                    : (<p>Not found</p>)
+                        )
+                        : (<p>Not found</p>)
                     : (<p>loading...</p>)
             }
         </Theme>
