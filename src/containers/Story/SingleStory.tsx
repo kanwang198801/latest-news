@@ -19,14 +19,14 @@ type Props = OwnProps;
 function SingleStory(props: Props) {
     const [loading, setLoading] = useState(true);
     const [commentloading, setCommentLoading] = useState(true);
+
     const [story, setStory] = useState<StoryType>(
         {
             by: "",
             descendants: 0,
             id: 0,
-            kids: [],
+            kids: [0, 2],
             score: 0,
-            text: "",
             time: 0,
             type: "",
             title: "",
@@ -45,12 +45,14 @@ function SingleStory(props: Props) {
                 setLoading(false);
             }).catch(error => console.log(error));
     };
-    const loadComments = async (commentIDs: string[]) => {
+    const loadComments = async (commentIDs: number[]) => {
         const topCommentIDs = commentIDs.slice(0, 20);
         const list: CommentType[] = await Promise.all(topCommentIDs.map(comentId => {
             const singleComment = fetch(`${URL}/item/${comentId}.json?print=pretty`)
                 .then(res => res.json())
-                .then(response => { return response; })
+                .then((response) => {
+                    return response
+                })
                 .catch(error => console.log(error));
             return singleComment;
         }));
@@ -70,13 +72,11 @@ function SingleStory(props: Props) {
     }, [story]);
     interface ListTypes {
         items: CommentType[],
-        hasLink: boolean,
         link: string,
         type: string,
     }
     const ListProps: ListTypes = {
         items: comments,
-        hasLink: false,
         link: '',
         type: 'comment',
     }
@@ -96,7 +96,6 @@ function SingleStory(props: Props) {
                 !loading ? story.type === "story" ?
                     (<>
                         <Link to="/"><Button>Back</Button></Link>
-
                         <h1>{story.title}</h1>
                         <h3>Arthur: {story.by} - {date}</h3>
                         <a href={story.url} target="_black">View details</a>

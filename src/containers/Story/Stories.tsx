@@ -47,13 +47,11 @@ function Stories(props: Props) {
 
     interface ListTypes {
         items: StoryType[],
-        hasLink: boolean,
         link: string,
         type: string,
     }
     const ListProps: ListTypes = {
         items: stories,
-        hasLink: true,
         link: '/story',
         type: 'story',
     }

@@ -22,13 +22,6 @@ const match = {
 };
 const location = createLocation(match.url);
 
-const renderStories = () =>
-    render(<Stories
-        history={history}
-        location={location}
-        match={match} />
-    );
-
 describe('<Stories />', () => {
     it('Expect to not log errors in console', () => {
         const spy = jest.spyOn(global.console, 'error');
