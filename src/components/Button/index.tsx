@@ -1,9 +1,10 @@
-import * as React from 'react';
+import React, { ReactNode } from 'react';
 import styles from './styles.module.css';
 
-function Button({ children }) {
-    return (
-        <button className={styles.button}>{children}</button>
-    );
-}
+type ButtonType = {
+  children: ReactNode;
+};
+const Button = ({ children }: ButtonType) => (
+  <button className={styles.button}>{children}</button>
+);
 export default Button;
