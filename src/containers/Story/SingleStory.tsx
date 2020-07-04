@@ -25,7 +25,7 @@ function SingleStory(props: Props) {
     by: '',
     descendants: 0,
     id: 0,
-    kids: [0, 2],
+    kids: [],
     score: 0,
     time: 0,
     type: '',
@@ -79,12 +79,7 @@ function SingleStory(props: Props) {
   let date = '';
   if (story.time) {
     const dateTime = new Date(story.time * 1000);
-    date =
-      dateTime.getDate() +
-      '/' +
-      (dateTime.getMonth() + 1) +
-      '/' +
-      dateTime.getFullYear();
+    date = dateTime.getDate() + '/' + (dateTime.getMonth() + 1) + '/' + dateTime.getFullYear();
   }
 
   return (

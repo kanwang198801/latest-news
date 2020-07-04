@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StoryList > should render the List if loading was story list successful 1`] = `
+<div
+  class="list"
+>
+  <div
+    class="listItem"
+  >
+    <a
+      class="link"
+      href="/https://google.com/22943621"
+    >
+      &quot;Permanent&quot; and &quot;free tier&quot;
+    </a>
+  </div>
+  <div
+    class="listItem"
+  >
+    <a
+      class="link"
+      href="/https://google.com/22943620"
+    >
+      &quot;Permanent&quot; and &quot;free tier&quot;
+    </a>
+  </div>
+</div>
+`;
