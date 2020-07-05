@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 
 import Button from '../index';
 const children = <>Test</>;
@@ -13,9 +13,9 @@ const renderComponent = (props: any = {}) => {
   return { ...utils, button };
 };
 
-describe('<Button />', () => {
-  it('should have children', () => {
-    const { button } = renderComponent();
-    expect(button.children).toHaveLength(1);
-  });
+afterEach(cleanup);
+
+it('should have children', () => {
+  const { button } = renderComponent();
+  expect(button.children).toHaveLength(1);
 });

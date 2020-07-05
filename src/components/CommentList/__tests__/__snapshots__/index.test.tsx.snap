@@ -38,3 +38,42 @@ exports[`CommentList should render the List if loading was comment list successf
   </div>
 </div>
 `;
+
+exports[`should render the List if loading was comment list successful 1`] = `
+<div
+  class="list"
+>
+  <div
+    class="listItem"
+  >
+    <div>
+      "Permanent" and "free tier"
+    </div>
+    <h5>
+      <strong>
+        By:
+      </strong>
+       
+      pjc50
+       - 
+      22/4/2020
+    </h5>
+  </div>
+  <div
+    class="listItem"
+  >
+    <div>
+      "Permanent" and "free tier"
+    </div>
+    <h5>
+      <strong>
+        By:
+      </strong>
+       
+      pjc50
+       - 
+      22/4/2020
+    </h5>
+  </div>
+</div>
+`;
